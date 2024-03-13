@@ -20,41 +20,41 @@ class PatientDetailModel {
 
   factory PatientDetailModel.fromJson(Map<String, dynamic> json) {
     return PatientDetailModel(
-      id: json['id'],
-      male: json['male'],
-      female: json['female'],
-      patient: json['patient'],
-      treatment: json['treatment'],
-      treatmentName: json['treatment_name'],
+      id: json['id'] ?? 0,
+      male: json['male'] ?? '',
+      female: json['female'] ?? '',
+      patient: json['patient'] ?? 0,
+      treatment: json['treatment'] ?? 0,
+      treatmentName: json['treatment_name'] ?? '',
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'male': male,
-      'female': female,
-      'patient': patient,
-      'treatment': treatment,
-      'treatment_name': treatmentName,
-    };
-  }
+  // Map<String, dynamic> toJson() {
+  //   return {
+  //     'id': id,
+  //     'male': male,
+  //     'female': female,
+  //     'patient': patient,
+  //     'treatment': treatment,
+  //     'treatment_name': treatmentName,
+  //   };
+  // }
 
-  PatientDetailModel copyWith({
-    int? id,
-    String? male,
-    String? female,
-    int? patient,
-    int? treatment,
-    String? treatmentName,
-  }) {
-    return PatientDetailModel(
-      id: id ?? this.id,
-      male: male ?? this.male,
-      female: female ?? this.female,
-      patient: patient ?? this.patient,
-      treatment: treatment ?? this.treatment,
-      treatmentName: treatmentName ?? this.treatmentName,
-    );
-  }
+  // PatientDetailModel copyWith({
+  //   int? id,
+  //   String? male,
+  //   String? female,
+  //   int? patient,
+  //   int? treatment,
+  //   String? treatmentName,
+  // }) {
+  //   return PatientDetailModel(
+  //     id: id ?? this.id,
+  //     male: male ?? this.male,
+  //     female: female ?? this.female,
+  //     patient: patient ?? this.patient,
+  //     treatment: treatment ?? this.treatment,
+  //     treatmentName: treatmentName ?? this.treatmentName,
+  //   );
+  // }
 }
