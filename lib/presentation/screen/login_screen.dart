@@ -12,7 +12,11 @@ class LoginScreen extends StatelessWidget {
     double width = MediaQuery.sizeOf(context).width;
     final textTheme = Theme.of(context).textTheme;
     ScrollController scrollController = ScrollController();
+    TextEditingController userController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
     GlobalKey formKey = GlobalKey<FormState>();
+
+    
     return Scaffold(
       body: SingleChildScrollView(
         controller: scrollController,
@@ -31,6 +35,7 @@ class LoginScreen extends StatelessWidget {
               CustomFormField(
                 label: 'Email',
                 hintText: 'Enter your email',
+                controller: userController,
                 onTap: () {
                   scrollController.jumpTo(100);
                 },
@@ -38,6 +43,7 @@ class LoginScreen extends StatelessWidget {
               CustomFormField(
                 label: 'Password',
                 hintText: 'Enter password',
+                controller: passwordController,
                 isObscure: true,
                 onTap: () {
                   scrollController.jumpTo(200);
@@ -46,7 +52,9 @@ class LoginScreen extends StatelessWidget {
               SizedBox(height: width / 5.6),
               Center(
                 child: CustomButton(
-                  onPress: () {},
+                  onPress: () {
+
+                  },
                   buttonLabel: 'Login',
                 ),
               ),

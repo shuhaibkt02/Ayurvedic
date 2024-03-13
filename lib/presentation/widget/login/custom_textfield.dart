@@ -10,6 +10,7 @@ class CustomFormField extends StatelessWidget {
   final Widget? suffix;
   final TextInputType? keyboardType;
   final Widget? child;
+  final TextEditingController? controller;
   const CustomFormField({
     super.key,
     required this.label,
@@ -19,7 +20,7 @@ class CustomFormField extends StatelessWidget {
     this.noTitle,
     this.child,
     this.keyboardType,
-    this.suffix,
+    this.suffix, this.controller,
   });
 
   @override
@@ -45,6 +46,7 @@ class CustomFormField extends StatelessWidget {
                       color: Colors.grey.shade400,
                     )),
                 child: TextFormField(
+                  controller: controller,
                   autofocus: true,
                   focusNode: FocusNode(),
                   keyboardType: keyboardType,
