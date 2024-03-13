@@ -42,7 +42,7 @@ class CustomDropDown extends StatelessWidget {
         onSelected: onSelected,
         dropdownMenuEntries: items
             .map(
-              (item) => DropdownMenuEntry(value: item, label: '$item'),
+              (item) => DropdownMenuEntry(value: item, label: item),
             )
             .toList(),
       ),

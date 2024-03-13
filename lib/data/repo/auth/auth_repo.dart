@@ -10,7 +10,7 @@ abstract class AuthService {
 
 class AuthRepository implements AuthService {
   final Dio dio = Dio();
-  String baseUri = 'https://flutter-amr.noviindus.in/api/';
+  String baseUri = 'https://flutter-amr.noviindus.in/api';
   String token = '';
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
@@ -42,7 +42,7 @@ class AuthRepository implements AuthService {
       token = responseData['token'];
       await storeToken(token: token); // Store token for future requests
     } catch (error) {
-      print('Error: $error');
+      throw Exception('Error: $error');
     }
   }
 }

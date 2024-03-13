@@ -3,9 +3,9 @@ import 'package:ayurvedic/utils/constant.dart';
 
 class TextTermsPrivacy extends StatelessWidget {
   const TextTermsPrivacy({
-    Key? key,
+    super.key,
     required this.textTheme,
-  }) : super(key: key);
+  });
 
   final TextTheme textTheme;
 

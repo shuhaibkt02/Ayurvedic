@@ -1,3 +1,4 @@
+import 'package:ayurvedic/presentation/screen/register_screen.dart';
 import 'package:ayurvedic/presentation/widget/home/app_bar.dart';
 import 'package:ayurvedic/presentation/widget/home/patient_card.dart';
 import 'package:ayurvedic/presentation/widget/home/custom_search_bar.dart';
@@ -9,8 +10,6 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    
-
     return Scaffold(
       appBar: appBar(),
       body: SingleChildScrollView(
@@ -34,7 +33,11 @@ class HomeScreen extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: CustomButton(
-        onPress: () {},
+        onPress: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const RegisterScreen(),
+          ));
+        },
         buttonLabel: 'Register Now',
       ),
     );

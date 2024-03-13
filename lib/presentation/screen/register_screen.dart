@@ -14,15 +14,15 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController whatsappController = TextEditingController();
-    final TextEditingController addressController = TextEditingController();
-    final TextEditingController totalController = TextEditingController();
-    final TextEditingController discountController = TextEditingController();
-    final TextEditingController advanceController = TextEditingController();
-    final TextEditingController balanceController = TextEditingController();
+    // final TextEditingController nameController = TextEditingController();
+    // final TextEditingController whatsappController = TextEditingController();
+    // final TextEditingController addressController = TextEditingController();
+    // final TextEditingController totalController = TextEditingController();
+    // final TextEditingController discountController = TextEditingController();
+    // final TextEditingController advanceController = TextEditingController();
+    // final TextEditingController balanceController = TextEditingController();
 
-    AppBar _appBar() => AppBar(
+    AppBar appBar() => AppBar(
           elevation: 1,
           title: Text(
             'Register',
@@ -44,7 +44,7 @@ class RegisterScreen extends StatelessWidget {
     List<String> options = ['Name', "Whatsapp Number", "Address"];
 
     return Scaffold(
-      appBar: _appBar(),
+      appBar: appBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [

@@ -1,6 +1,5 @@
 import 'package:ayurvedic/utils/constant.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class TreatmentCard extends StatelessWidget {
   final int maleCount;
