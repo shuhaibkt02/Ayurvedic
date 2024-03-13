@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final VoidCallback onPress;
+  final Color? btnColor;
   final double? width;
   final double? btnHeight;
   final String buttonLabel;
@@ -12,6 +13,7 @@ class CustomButton extends StatelessWidget {
     required this.buttonLabel,
     this.width,
     this.btnHeight,
+    this.btnColor,
   });
 
   @override
@@ -26,7 +28,7 @@ class CustomButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             alignment: Alignment.center,
             fixedSize: Size(width ?? mediaWidth, btnHeight ?? 55),
-            backgroundColor: buttonBackground,
+            backgroundColor: btnColor ?? buttonBackground,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
         child: Text(

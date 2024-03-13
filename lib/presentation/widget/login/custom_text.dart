@@ -5,10 +5,13 @@ class CustomTextField extends StatelessWidget {
     super.key,
     required this.onTap,
     required this.hintText,
+    this.readOnly, this.suffix,
   });
 
   final VoidCallback? onTap;
   final String hintText;
+  final bool? readOnly;
+  final Widget? suffix;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +25,11 @@ class CustomTextField extends StatelessWidget {
             color: Colors.grey.shade400,
           )),
       child: TextFormField(
+        readOnly: readOnly ?? false,
         onTap: onTap,
         style: textTheme.bodySmall,
         decoration: InputDecoration(
+          suffix: suffix,
           border: InputBorder.none,
           hintText: hintText,
           contentPadding: const EdgeInsets.symmetric(horizontal: 12),

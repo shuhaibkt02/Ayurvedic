@@ -8,6 +8,8 @@ const Color linkText = Color(0xFF0028FC);
 const Color buttonBackground = Color(0xFF006837);
 const Color bodyLargeColor = Color(0xFF404040);
 const Color packageTextColor = Color(0xFF006837);
+const Color treatmentColor = Color(0xA0389A48);
+const Color textFieldBgColor =  Color(0xAAD9D9D9);
 
 const TextTheme textTheme = TextTheme(
   bodyLarge: TextStyle(

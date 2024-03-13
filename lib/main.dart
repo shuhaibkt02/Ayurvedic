@@ -1,4 +1,4 @@
-import 'package:ayurvedic/presentation/screen/home_screen.dart';
+import 'package:ayurvedic/presentation/screen/register_screen.dart';
 import 'package:ayurvedic/utils/constant.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         textTheme: textTheme,
       ),
-      home: const HomeScreen(),
+      home: const RegisterScreen(),
     );
   }
 }
