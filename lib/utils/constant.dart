@@ -7,6 +7,7 @@ const String loginTerm =
 const Color linkText = Color(0xFF0028FC);
 const Color buttonBackground = Color(0xFF006837);
 const Color bodyLargeColor = Color(0xFF404040);
+const Color packageTextColor = Color(0xFF006837);
 
 const TextTheme textTheme = TextTheme(
   bodyLarge: TextStyle(

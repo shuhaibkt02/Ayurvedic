@@ -1,3 +1,4 @@
+import 'package:ayurvedic/presentation/widget/home/patient_card.dart';
 import 'package:ayurvedic/presentation/widget/home/search_bar.dart';
 import 'package:ayurvedic/presentation/widget/home/sort_by_widget.dart';
 import 'package:ayurvedic/presentation/widget/login/custom_button.dart';
@@ -7,8 +8,8 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    AppBar appBar() {
+      return AppBar(
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12.0),
@@ -21,13 +22,29 @@ class HomeScreen extends StatelessWidget {
             ),
           )
         ],
-      ),
-      body: Column(
-        children: [
-          CustomSearchBar(onTap: () {}),
-          const SortBy(),
-          const Divider(),
-        ],
+      );
+    }
+
+    return Scaffold(
+      appBar: appBar(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            CustomSearchBar(onTap: () {}),
+            const SortBy(),
+            const Divider(),
+            ...List.generate(
+              5,
+              (index) => PatientCard(
+                patientName: 'Vikram Singh',
+                date: '31/01/2024',
+                withWho: 'Jithesh',
+                packageName: 'Couple Combo Package(Rejuven)',
+                patientOp: index + 1,
+              ),
+            )
+          ],
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: CustomButton(
