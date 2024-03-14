@@ -232,6 +232,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.7"
+  ink:
+    dependency: "direct main"
+    description:
+      name: ink
+      sha256: "92635e05f6181356bbb68b189cf266029f5970594631d3a657a825077b7d87e1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   js:
     dependency: transitive
     description:

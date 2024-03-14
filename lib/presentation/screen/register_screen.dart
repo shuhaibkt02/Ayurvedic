@@ -153,7 +153,7 @@ class RegisterWidget extends StatelessWidget {
             const SizedBox(height: 20),
             CustomButton(
                 onPress: () {
-                  prov.generatePdf();
+                  // prov.generatePdf();
                 },
                 buttonLabel: 'Save'),
             const SizedBox(height: 20),

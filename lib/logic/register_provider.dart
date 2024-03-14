@@ -136,6 +136,4 @@ class RegisterProvider extends ChangeNotifier {
     allPatients.add(patientModel);
     print(patientModel);
   }
-
-  void generatePdf() {}
 }
