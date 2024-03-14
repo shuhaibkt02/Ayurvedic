@@ -1,11 +1,14 @@
+import 'package:ayurvedic/logic/register_provider.dart';
 import 'package:ayurvedic/presentation/widget/login/custom_button.dart';
 import 'package:ayurvedic/presentation/widget/login/custom_textfield.dart';
 import 'package:ayurvedic/presentation/widget/register/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 
 class CreateTreatmentCard extends StatelessWidget {
+  final RegisterProvider prov;
   const CreateTreatmentCard({
     super.key,
+    required this.prov,
   });
 
   @override
@@ -13,32 +16,55 @@ class CreateTreatmentCard extends StatelessWidget {
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
         child: Column(
           children: [
-            const SizedBox(height: 10),
-            const CustomFormField(
+            const SizedBox(height: 5),
+            CustomFormField(
               label: 'Choose Treatment',
               child: CustomDropDown(
-                  items: [], hintText: 'Choose prefered treatment'),
+                  onSelected: (treatment) => prov.selectTreatment(treatment),
+                  items: prov.treatments.map((e) => e.name).toList(),
+                  hintText: 'Choose prefered treatment'),
             ),
-            const CustomFormField(
+            CustomFormField(
               label: 'Add Patients',
               child: Column(
                 children: [
                   _GenderBox(
                     gender: 'Male',
-                    valueIn: 1,
+                    valueIn: prov.maleCount,
+                    prov: prov,
+                    increament: () {
+                      prov.updateCount(true, true);
+                      print(prov.maleCount);
+                    },
+                    decreament: () {
+                      prov.updateCount(true, false);
+                    },
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   _GenderBox(
                     gender: 'Female',
-                    valueIn: 2,
+                    valueIn: prov.femaleCount,
+                    prov: prov,
+                    increament: () {
+                      prov.updateCount(false, true);
+                    },
+                    decreament: () {
+                      prov.updateCount(false, false);
+                    },
                   ),
                 ],
               ),
             ),
-            CustomButton(onPress: () {}, buttonLabel: 'Save')
+            const SizedBox(height: 8),
+            CustomButton(
+                onPress: () {
+                  prov.createTreatmentAndClear();
+                  Navigator.pop(context);
+                },
+                buttonLabel: 'Save')
           ],
         ),
       ),
@@ -48,8 +74,16 @@ class CreateTreatmentCard extends StatelessWidget {
 
 class _GenderBox extends StatelessWidget {
   final String gender;
+  final VoidCallback increament;
+  final VoidCallback decreament;
+  final RegisterProvider prov;
   final int valueIn;
-  const _GenderBox({required this.gender, required this.valueIn});
+  const _GenderBox(
+      {required this.gender,
+      required this.valueIn,
+      required this.prov,
+      required this.increament,
+      required this.decreament});
 
   @override
   Widget build(BuildContext context) {
@@ -74,10 +108,11 @@ class _GenderBox extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton(
-                    onPressed: () {},
+                    onPressed: decreament,
                     style:
                         ElevatedButton.styleFrom(shape: const CircleBorder()),
-                    child: const Icon(Icons.add, size: 15)),
+                    child: const Icon(Icons.keyboard_arrow_left_rounded,
+                        size: 15)),
                 SizedBox(
                   width: 50,
                   child: Container(
@@ -91,7 +126,7 @@ class _GenderBox extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                    onPressed: () {},
+                    onPressed: increament,
                     style:
                         ElevatedButton.styleFrom(shape: const CircleBorder()),
                     child: const Icon(Icons.add, size: 15)),

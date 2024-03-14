@@ -22,7 +22,7 @@ class TimePicker extends StatelessWidget {
           // color: Colors.red,
           height: 50,
           child: CustomDropDown(
-            items: [for (int i = 1; i <= 12; i++) '$i'],
+            items: [for (int i = 0; i <= 23; i++) '$i'],
             hintText: 'Hours',
             dropWidth: mediaWidth / 2.3,
             onSelected: (hour) {

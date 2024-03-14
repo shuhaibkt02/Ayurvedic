@@ -1,5 +1,7 @@
 import 'package:ayurvedic/utils/constant.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class TreatmentCard extends StatelessWidget {
   final int maleCount;
@@ -43,20 +45,16 @@ class TreatmentCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          packageName,
-                          style: textTheme.bodyMedium?.copyWith(fontSize: 18),
-                        ),
-                        const SizedBox(width: 20),
-                        GestureDetector(
-                          onTap: onDelete,
-                          child: Icon(
-                            Icons.close,
-                            color: Colors.red.shade600,
+                        SizedBox(
+                          child: Text(
+                            packageName,
+                            overflow: TextOverflow.fade,
+                            textAlign: TextAlign.start,
+                            style: textTheme.bodyMedium?.copyWith(
+                                fontSize: 14, overflow: TextOverflow.fade),
                           ),
-                        )
+                        ),
                       ],
                     ),
                     const SizedBox(height: 8),
@@ -73,15 +71,27 @@ class TreatmentCard extends StatelessWidget {
                           textTheme: textTheme,
                           value: 2,
                         ),
-                        const SizedBox(width: 15),
-                        InkWell(
-                          onTap: onEdit,
-                          child: const Icon(Icons.edit, size: 18),
-                        )
                       ],
                     ),
                   ],
-                )
+                ),
+                const SizedBox(width: 10),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    GestureDetector(
+                      onTap: onDelete,
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.red.shade600,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: onEdit,
+                      child: const Icon(Icons.edit, size: 18),
+                    )
+                  ],
+                ),
               ],
             ),
           ),

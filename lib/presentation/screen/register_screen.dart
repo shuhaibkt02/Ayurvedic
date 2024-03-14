@@ -98,22 +98,27 @@ class RegisterWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ...["ok"].map(
-                    (e) => TreatmentCard(
-                      indexOfCard: 1,
-                      packageName: 'Couple Combo package',
-                      maleCount: 1,
-                      femaleCount: 1,
+                  ...List.generate(prov.createdTreatment.length, (index) {
+                    final treatment = prov.createdTreatment[index];
+                    return TreatmentCard(
+                      indexOfCard: index,
+                      packageName: treatment.treatmentName,
+                      maleCount: int.parse(treatment.male),
+                      femaleCount: int.parse(treatment.female),
                       onEdit: () {},
-                      onDelete: () {},
-                    ),
-                  ),
+                      onDelete: () {
+                        prov.deleteTreatment(id: index);
+                      },
+                    );
+                  }),
                   CustomButton(
                     btnColor: treatmentColor,
                     onPress: () {
                       showModalBottomSheet(
                         context: context,
-                        builder: (context) => const CreateTreatmentCard(),
+                        builder: (context) => CreateTreatmentCard(
+                          prov: prov,
+                        ),
                       );
                     },
                     buttonLabel: 'Add Treatment',
@@ -130,6 +135,7 @@ class RegisterWidget extends StatelessWidget {
                       )
                     : CustomFormField(
                         label: amountCnt[index].label,
+                        keyboardType: TextInputType.number,
                         controller: amountCnt[index].controller,
                       )),
             CustomFormField(
@@ -145,7 +151,11 @@ class RegisterWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            CustomButton(onPress: () {}, buttonLabel: 'Save'),
+            CustomButton(
+                onPress: () {
+                  prov.generatePdf();
+                },
+                buttonLabel: 'Save'),
             const SizedBox(height: 20),
           ],
         ),
