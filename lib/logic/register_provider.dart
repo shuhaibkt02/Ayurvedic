@@ -118,7 +118,7 @@ class RegisterProvider extends ChangeNotifier {
     createdTreatment.removeAt(id);
   }
 
-  void savePatient() {
+  void savePatient() async {
     int id = allPatients.last.id + 1;
     String totalString = totalController.text;
     String balanceString = balanceController.text;
@@ -128,6 +128,8 @@ class RegisterProvider extends ChangeNotifier {
     int balance = int.tryParse(balanceString)!.toInt();
     int discount = int.tryParse(discountString)!.toInt();
     int adnavce = int.tryParse(advanceString)!.toInt();
+
+    final dateAndTime = '$selectedDate -$selectedHour:$selectedMinutes';
     PatientModel patientModel = PatientModel(
       id: id,
       patientDetailList: createdTreatment,
@@ -142,13 +144,13 @@ class RegisterProvider extends ChangeNotifier {
       discountAmount: discount,
       advanceAmount: adnavce,
       balanceAmount: balance,
-      dateAndTime: selectedDate,
+      dateAndTime: dateAndTime,
       isActive: true,
       createdAt: DateTime.now().toString(),
       updatedAt: DateTime.now().toString(),
     );
     allPatients.add(patientModel);
-    print(patientModel);
+    await PatientRepositery().updatePatient(patient: patientModel);
   }
 
   Future generatePdf() async {

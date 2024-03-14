@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ayurvedic/data/model/branches_model.dart';
 import 'package:ayurvedic/data/model/patient_model.dart';
 import 'package:ayurvedic/data/model/treatment_model.dart';
@@ -8,6 +10,7 @@ abstract class PatientService {
   Future<List<PatientModel>> fetchPatient();
   Future<List<BranchModel>> fetchBranches();
   Future<List<TreatmentModel>> fetchTreatments();
+  Future<void> updatePatient({required PatientModel patient});
 }
 
 class PatientRepositery implements PatientService {
@@ -100,5 +103,35 @@ class PatientRepositery implements PatientService {
     } catch (e) {
       throw Exception('Error fetching patient data: $e');
     }
+  }
+
+  @override
+  Future<void> updatePatient({required PatientModel patient}) async {
+    final token = await AuthRepository().loadToken();
+    var headers = {'Authorization': 'Bearer $token'};
+
+    FormData formData = FormData.fromMap({
+      'name': patient.name,
+      'executive': patient.user,
+      'payment': patient.payment,
+      'address': patient.address,
+      'total_amount': patient.totalAmount,
+      'discount_amount': patient.discountAmount,
+      'advance_amount': patient.advanceAmount,
+      'balance_amount': patient.balanceAmount,
+      'date_nd_time': patient.dateAndTime,
+      'id': '',
+      'male': patient.patientDetailList.map((e) => e.male),
+      'female': patient.patientDetailList.map((e) => e.female),
+      'branch': patient.branch,
+      'treatments': patient.patientDetailList.map((e) => e.id),
+    });
+
+    Response response = await dio.post('$baseUri/PatientUpdate',
+        data: formData, options: Options(headers: headers));
+
+    final responseData = response.data as Map<String, dynamic>;
+
+    log('$responseData');
   }
 }
