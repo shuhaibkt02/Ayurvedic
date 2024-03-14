@@ -329,15 +329,13 @@ class RegisterProvider extends ChangeNotifier {
                   pw.SizedBox(height: 15),
                   pw.Table(children: [
                     buildHeaderRow(headerNames),
-                    for (var patients in allPatients)
+                    for (var treatment in createdTreatment)
                       pw.TableRow(children: [
-                        pw.Text(patients.patientDetailList.first.treatmentName),
+                        pw.Text(treatment.treatmentName),
                         pw.Container(width: 50, child: pw.Text("0")),
-                        pw.Text(
-                            patients.patientDetailList.first.male.toString()),
-                        pw.Text(
-                            patients.patientDetailList.first.female.toString()),
-                        pw.Text(patients.price),
+                        pw.Text(treatment.male.toString()),
+                        pw.Text(treatment.female.toString()),
+                        pw.Text("0"),
                       ]),
                   ]),
                   pw.SizedBox(height: 155),
@@ -348,7 +346,7 @@ class RegisterProvider extends ChangeNotifier {
                             textAlign: pw.TextAlign.start,
                             style: pw.TextStyle(
                                 fontSize: 10, fontWeight: pw.FontWeight.bold)),
-                        pw.Text(allPatients.first.totalAmount.toString(),
+                        pw.Text("10",
                             textAlign: pw.TextAlign.start,
                             style: pw.TextStyle(
                                 fontSize: 10, fontWeight: pw.FontWeight.bold)),
@@ -359,7 +357,7 @@ class RegisterProvider extends ChangeNotifier {
                         pw.Text("Discount",
                             textAlign: pw.TextAlign.start,
                             style: const pw.TextStyle(fontSize: 10)),
-                        pw.Text(allPatients.first.discountAmount.toString(),
+                        pw.Text("150",
                             textAlign: pw.TextAlign.start,
                             style: const pw.TextStyle(fontSize: 10)),
                       ]),
@@ -369,7 +367,7 @@ class RegisterProvider extends ChangeNotifier {
                         pw.Text("Advance  ",
                             textAlign: pw.TextAlign.start,
                             style: const pw.TextStyle(fontSize: 10)),
-                        pw.Text(allPatients.first.advanceAmount.toString(),
+                        pw.Text("50",
                             textAlign: pw.TextAlign.start,
                             style: const pw.TextStyle(fontSize: 10)),
                       ]),
