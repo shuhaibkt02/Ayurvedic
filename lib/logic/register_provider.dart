@@ -62,6 +62,7 @@ class RegisterProvider extends ChangeNotifier {
   void fetchBranches() async {
     branches = await PatientRepositery().fetchBranches();
     treatments = await PatientRepositery().fetchTreatments();
+    allPatients = await PatientRepositery().fetchPatient();
     selectedBranchData =
         branches.firstWhere((element) => element.name.isNotEmpty);
 
