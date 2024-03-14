@@ -29,32 +29,32 @@ class PatientDetailModel {
     );
   }
 
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     'id': id,
-  //     'male': male,
-  //     'female': female,
-  //     'patient': patient,
-  //     'treatment': treatment,
-  //     'treatment_name': treatmentName,
-  //   };
-  // }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'male': male,
+      'female': female,
+      'patient': patient,
+      'treatment': treatment,
+      'treatment_name': treatmentName,
+    };
+  }
 
-  // PatientDetailModel copyWith({
-  //   int? id,
-  //   String? male,
-  //   String? female,
-  //   int? patient,
-  //   int? treatment,
-  //   String? treatmentName,
-  // }) {
-  //   return PatientDetailModel(
-  //     id: id ?? this.id,
-  //     male: male ?? this.male,
-  //     female: female ?? this.female,
-  //     patient: patient ?? this.patient,
-  //     treatment: treatment ?? this.treatment,
-  //     treatmentName: treatmentName ?? this.treatmentName,
-  //   );
-  // }
+  PatientDetailModel copyWith({
+    int? id,
+    String? male,
+    String? female,
+    int? patient,
+    int? treatment,
+    String? treatmentName,
+  }) {
+    return PatientDetailModel(
+      id: id ?? this.id,
+      male: male ?? this.male,
+      female: female ?? this.female,
+      patient: patient ?? this.patient,
+      treatment: treatment ?? this.treatment,
+      treatmentName: treatmentName ?? this.treatmentName,
+    );
+  }
 }

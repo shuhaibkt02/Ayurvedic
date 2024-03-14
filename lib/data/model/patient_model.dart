@@ -65,67 +65,67 @@ class PatientModel {
       updatedAt: json['updated_at'] ?? '',
     );
   }
+  
+Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'patientdetails_set':
+          patientDetailList.map((detail) => detail.toJson()).toList(),
+      'branch': branch,
+      'user': user,
+      'payment': payment,
+      'name': name,
+      'phone': phone,
+      'address': address,
+      'price': price,
+      'total_amount': totalAmount,
+      'discount_amount': discountAmount,
+      'advance_amount': advanceAmount,
+      'date_nd_time': dateAndTime,
+      'is_active': isActive,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+    };
+  }
+
+  PatientModel copyWith({
+    int? id,
+    List<PatientDetailModel>? patientDetailList,
+    BranchModel? branch,
+    String? user,
+    String? payment,
+    String? name,
+    String? phone,
+    String? address,
+    dynamic price,
+    int? totalAmount,
+    int? discountAmount,
+    int? advanceAmount,
+    int? balanceAmount,
+    String? dateAndTime,
+    bool? isActive,
+    String? createdAt,
+    String? updatedAt,
+  }) {
+    return PatientModel(
+      id: id ?? this.id,
+      patientDetailList: patientDetailList ?? this.patientDetailList,
+      branch: branch ?? this.branch,
+      user: user ?? this.user,
+      payment: payment ?? this.payment,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+      address: address ?? this.address,
+      price: price ?? this.price,
+      totalAmount: totalAmount ?? this.totalAmount,
+      discountAmount: discountAmount ?? this.discountAmount,
+      advanceAmount: advanceAmount ?? this.advanceAmount,
+      balanceAmount: balanceAmount ?? this.balanceAmount,
+      dateAndTime: dateAndTime ?? this.dateAndTime,
+      isActive: isActive ?? this.isActive,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
 }
 
-
-// Map<String, dynamic> toJson() {
-  //   return {
-  //     'id': id,
-  //     'patientdetails_set':
-  //         patientDetailList.map((detail) => detail.toJson()).toList(),
-  //     'branch': branch,
-  //     'user': user,
-  //     'payment': payment,
-  //     'name': name,
-  //     'phone': phone,
-  //     'address': address,
-  //     // 'price': price,
-  //     'total_amount': totalAmount,
-  //     'discount_amount': discountAmount,
-  //     'advance_amount': advanceAmount,
-  //     // 'date_nd_time': dateAndTime,
-  //     'is_active': isActive,
-  //     'created_at': createdAt,
-  //     'updated_at': updatedAt,
-  //   };
-  // }
-
-  // PatientModel copyWith({
-  //   int? id,
-  //   List<PatientDetailModel>? patientDetailList,
-  //   BranchModel? branch,
-  //   String? user,
-  //   String? payment,
-  //   String? name,
-  //   String? phone,
-  //   String? address,
-  //   // dynamic price,
-  //   int? totalAmount,
-  //   int? discountAmount,
-  //   int? advanceAmount,
-  //   int? balanceAmount,
-  //   String? dateAndTime,
-  //   bool? isActive,
-  //   String? createdAt,
-  //   String? updatedAt,
-  // }) {
-  //   return PatientModel(
-  //     id: id ?? this.id,
-  //     patientDetailList: patientDetailList ?? this.patientDetailList,
-  //     branch: branch ?? this.branch,
-  //     user: user ?? this.user,
-  //     payment: payment ?? this.payment,
-  //     name: name ?? this.name,
-  //     phone: phone ?? this.phone,
-  //     address: address ?? this.address,
-  //     // price: price ?? this.price,
-  //     totalAmount: totalAmount ?? this.totalAmount,
-  //     discountAmount: discountAmount ?? this.discountAmount,
-  //     advanceAmount: advanceAmount ?? this.advanceAmount,
-  //     balanceAmount: balanceAmount ?? this.balanceAmount,
-  //     // dateAndTime: dateAndTime ?? this.dateAndTime,
-  //     isActive: isActive ?? this.isActive,
-  //     createdAt: createdAt ?? this.createdAt,
-  //     updatedAt: updatedAt ?? this.updatedAt,
-  //   );
-  // }

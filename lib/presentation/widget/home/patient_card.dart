@@ -1,5 +1,6 @@
 import 'package:ayurvedic/utils/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class PatientCard extends StatelessWidget {
   final String patientName;
@@ -48,9 +49,9 @@ class PatientCard extends StatelessWidget {
                       style: textTheme.bodyMedium
                           ?.copyWith(fontWeight: FontWeight.w400),
                     ),
-                    SizedBox(width: width / 5.5),
+                    SizedBox(width: width / 5.7),
                     const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: EdgeInsets.symmetric(horizontal: 5.0),
                       child: Icon(
                         Icons.arrow_forward_ios,
                         size: 20,
@@ -97,7 +98,7 @@ class _details extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
-            width: 50,
+            width: width / 10,
             child: Text(' $patientOp.'),
           ),
           Column(
@@ -112,7 +113,7 @@ class _details extends StatelessWidget {
                 style: textTheme.bodyMedium?.copyWith(
                     color: packageTextColor, fontWeight: FontWeight.normal),
               ),
-              Row(
+              Wrap(
                 children: [
                   _IconWithText(
                     icon: Icons.calendar_today_outlined,

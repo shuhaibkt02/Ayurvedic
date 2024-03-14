@@ -38,41 +38,41 @@ class BranchModel {
     );
   }
 
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     'id': id,
-  //     'name': name,
-  //     'patients_count': patientsCount,
-  //     'location': location,
-  //     'phone': phone,
-  //     'mail': mail,
-  //     'address': address,
-  //     'gst': gst,
-  //     'is_active': isActive,
-  //   };
-  // }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'patients_count': patientsCount,
+      'location': location,
+      'phone': phone,
+      'mail': mail,
+      'address': address,
+      'gst': gst,
+      'is_active': isActive,
+    };
+  }
 
-  // BranchModel copyWith({
-  //   int? id,
-  //   String? name,
-  //   int? patientsCount,
-  //   String? location,
-  //   String? phone,
-  //   String? mail,
-  //   String? address,
-  //   String? gst,
-  //   bool? isActive,
-  // }) {
-  //   return BranchModel(
-  //     id: id ?? this.id,
-  //     name: name ?? this.name,
-  //     patientsCount: patientsCount ?? this.patientsCount,
-  //     location: location ?? this.location,
-  //     phone: phone ?? this.phone,
-  //     mail: mail ?? this.mail,
-  //     address: address ?? this.address,
-  //     gst: gst ?? this.gst,
-  //     isActive: isActive ?? this.isActive,
-  //   );
-  // }
+  BranchModel copyWith({
+    int? id,
+    String? name,
+    int? patientsCount,
+    String? location,
+    String? phone,
+    String? mail,
+    String? address,
+    String? gst,
+    bool? isActive,
+  }) {
+    return BranchModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      patientsCount: patientsCount ?? this.patientsCount,
+      location: location ?? this.location,
+      phone: phone ?? this.phone,
+      mail: mail ?? this.mail,
+      address: address ?? this.address,
+      gst: gst ?? this.gst,
+      isActive: isActive ?? this.isActive,
+    );
+  }
 }

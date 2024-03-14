@@ -62,8 +62,10 @@ class RegisterScreen extends StatelessWidget {
             CustomFormField(
               label: 'Location',
               child: CustomDropDown(
-                onSelected: (p0) {},
-                items: const [],
+                onSelected: (p0) {
+                  print(p0);
+                },
+                items: const ["kozhikode", "malappuram", "wayanad"],
                 hintText: 'Choose your location',
               ),
             ),
