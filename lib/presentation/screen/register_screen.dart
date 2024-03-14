@@ -1,3 +1,6 @@
+import 'package:ayurvedic/data/model/controller_model.dart';
+import 'package:ayurvedic/logic/register_provider.dart';
+import 'package:ayurvedic/presentation/widget/home/app_bar.dart';
 import 'package:ayurvedic/presentation/widget/login/custom_button.dart';
 import 'package:ayurvedic/presentation/widget/login/custom_textfield.dart';
 import 'package:ayurvedic/presentation/widget/register/create_treatment.dart';
@@ -8,72 +11,85 @@ import 'package:ayurvedic/presentation/widget/register/time_picker_widget.dart';
 import 'package:ayurvedic/presentation/widget/register/treatment_card.dart';
 import 'package:ayurvedic/utils/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    // final TextEditingController nameController = TextEditingController();
-    // final TextEditingController whatsappController = TextEditingController();
-    // final TextEditingController addressController = TextEditingController();
-    // final TextEditingController totalController = TextEditingController();
-    // final TextEditingController discountController = TextEditingController();
-    // final TextEditingController advanceController = TextEditingController();
-    // final TextEditingController balanceController = TextEditingController();
+    return ChangeNotifierProvider(
+      create: (context) => RegisterProvider(),
+      child: const RegisterWidget(),
+    );
+  }
+}
 
-    AppBar appBar() => AppBar(
-          elevation: 1,
-          title: Text(
-            'Register',
-            style: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 12.0),
-              child: IconButton(
-                onPressed: () {},
-                icon: const Badge(
-                  isLabelVisible: true,
-                  child: Icon(Icons.notifications_none),
-                ),
-              ),
-            )
-          ],
-        );
+class RegisterWidget extends StatelessWidget {
+  const RegisterWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final prov = Provider.of<RegisterProvider>(context);
+    prov.fetchBranches();
+    final textTheme = Theme.of(context).textTheme;
+
     List<String> options = ['Name', "Whatsapp Number", "Address"];
 
+    List<ControllerModel> amountCnt = [
+      ControllerModel(label: 'Total Amount', controller: prov.totalController),
+      ControllerModel(
+          label: 'Discount Amount', controller: prov.discountController),
+      ControllerModel(label: 'Payment Option'),
+      ControllerModel(
+          label: 'Advance Amount', controller: prov.advanceController),
+      ControllerModel(
+          label: 'Balance Amount', controller: prov.balanceController),
+    ];
+    List<TextEditingController> basicControllers = [
+      prov.nameController,
+      prov.whatsappController,
+      prov.addressController
+    ];
+
     return Scaffold(
-      appBar: appBar(),
+      appBar: appBar(textTheme: textTheme, title: 'Register'),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(),
-            ...options.map(
-              (title) => title.contains('Whatsapp')
+            ...List.generate(
+              options.length,
+              (index) => options[index].contains('Whatsapp')
                   ? CustomFormField(
-                      label: title,
-                      hintText: 'Enter your  $title',
+                      controller: basicControllers[index],
+                      label: options[index],
+                      hintText: 'Enter your  ${options[index]}',
                       keyboardType: TextInputType.phone,
                     )
                   : CustomFormField(
-                      label: title, hintText: 'Enter your full $title'),
+                      controller: basicControllers[index],
+                      label: options[index],
+                      hintText: 'Enter your full ${options[index]}'),
             ),
             CustomFormField(
               label: 'Location',
               child: CustomDropDown(
-                onSelected: (p0) {
-                  print(p0);
+                onSelected: (location) {
+                  prov.selectLocation(location);
                 },
-                items: const ["kozhikode", "malappuram", "wayanad"],
+                items: prov.locations,
                 hintText: 'Choose your location',
               ),
             ),
             CustomFormField(
               label: 'Branch',
               child: CustomDropDown(
-                onSelected: (p0) {},
-                items: const [],
+                onSelected: (branch) {
+                  prov.selectBranch(branch);
+                },
+                items: prov.branches.map((e) => e.name).toList(),
                 hintText: 'select your branch',
               ),
             ),
@@ -105,30 +121,28 @@ class RegisterScreen extends StatelessWidget {
                 ],
               ),
             ),
-            ...[
-              "Total Amount",
-              "Discount Amount",
-              "Payment Option",
-              "Advance Amount",
-              "Balance Amount"
-            ].map(
-              (title) => title.contains('Payment')
-                  ? CustomFormField(
-                      label: title,
-                      child: const OptionRadio(),
-                    )
-                  : CustomFormField(
-                      label: title,
-                      keyboardType: TextInputType.number,
-                    ),
-            ),
-            const CustomFormField(
+            ...List.generate(
+                amountCnt.length,
+                (index) => amountCnt[index].label.contains('Payment')
+                    ? CustomFormField(
+                        label: amountCnt[index].label,
+                        child: const OptionRadio(),
+                      )
+                    : CustomFormField(
+                        label: amountCnt[index].label,
+                        controller: amountCnt[index].controller,
+                      )),
+            CustomFormField(
               label: 'Treatment Date',
-              child: DateWidget(),
+              child: DateWidget(
+                prov: prov,
+              ),
             ),
-            const CustomFormField(
+            CustomFormField(
               label: 'Treatment Time',
-              child: TimePicker(),
+              child: TimePicker(
+                prov: prov,
+              ),
             ),
             const SizedBox(height: 20),
             CustomButton(onPress: () {}, buttonLabel: 'Save'),

@@ -1,9 +1,12 @@
+import 'package:ayurvedic/logic/register_provider.dart';
 import 'package:ayurvedic/presentation/widget/register/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 
 class TimePicker extends StatelessWidget {
+  final RegisterProvider prov;
   const TimePicker({
     super.key,
+    required this.prov,
   });
 
   @override
@@ -22,6 +25,9 @@ class TimePicker extends StatelessWidget {
             items: [for (int i = 1; i <= 12; i++) '$i'],
             hintText: 'Hours',
             dropWidth: mediaWidth / 2.3,
+            onSelected: (hour) {
+              prov.selectHour(hour);
+            },
           ),
         ),
         const SizedBox(width: 5),
@@ -29,6 +35,9 @@ class TimePicker extends StatelessWidget {
           width: mediaWidth / 2.2,
           height: 50,
           child: CustomDropDown(
+            onSelected: (minute) {
+              prov.selectMinute(minute);
+            },
             items: [for (int i = 0; i < 60; i++) '$i'],
             hintText: 'Minutes',
             dropWidth: mediaWidth / 2.3,

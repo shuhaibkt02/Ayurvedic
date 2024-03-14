@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class CustomDropDown extends StatelessWidget {
   final String hintText;
-  final List<String> items;
+  final List<dynamic> items;
   final double? dropWidth;
 
-  final void Function(String?)? onSelected;
+  final Function(dynamic)? onSelected;
   const CustomDropDown({
     super.key,
     required this.items,
@@ -21,7 +21,7 @@ class CustomDropDown extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
-      child: DropdownMenu<String>(
+      child: DropdownMenu<dynamic>(
         width: dropWidth ?? width / 1.09,
         hintText: hintText,
         textStyle: textTheme.bodySmall,

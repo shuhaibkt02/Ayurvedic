@@ -12,8 +12,10 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
-      appBar: appBar(),
+      appBar: appBar(textTheme: textTheme),
       body: Column(
         children: [
           CustomSearchBar(onTap: () {}),
