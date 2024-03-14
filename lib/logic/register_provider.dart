@@ -453,6 +453,7 @@ class RegisterProvider extends ChangeNotifier {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     String documentPath = documentDirectory.path;
     File file = File("$documentPath/Invoice2.pdf");
+    print('file :$file');
     return await Printing.layoutPdf(
         onLayout: (PdfPageFormat format) async => pdf.save());
   }
