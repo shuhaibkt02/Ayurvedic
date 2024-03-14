@@ -4,6 +4,13 @@ import 'package:ayurvedic/data/model/patient_model.dart';
 import 'package:ayurvedic/data/model/treatment_model.dart';
 import 'package:ayurvedic/data/repo/patient/patient_repo.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:ayurvedic/utils/constant.dart';
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 
 class RegisterProvider extends ChangeNotifier {
   final TextEditingController nameController = TextEditingController();
@@ -17,8 +24,10 @@ class RegisterProvider extends ChangeNotifier {
   List<String> payment = ["Cash", "Card", "UPI"];
   List<String> locations = ["kozhikode", "malappuram", "wayanad"];
   List<BranchModel> branches = [];
+  BranchModel? selectedBranchData;
   List<TreatmentModel> treatments = [];
   List<PatientDetailModel> createdTreatment = [];
+  List<PatientDetailModel> fetchTreatment = [];
   List<PatientModel> allPatients = [];
 
   String selectedPay = 'Cash';
@@ -53,12 +62,16 @@ class RegisterProvider extends ChangeNotifier {
   void fetchBranches() async {
     branches = await PatientRepositery().fetchBranches();
     treatments = await PatientRepositery().fetchTreatments();
-    allPatients = await PatientRepositery().fetchPatient();
+    selectedBranchData =
+        branches.firstWhere((element) => element.name.isNotEmpty);
+
     notifyListeners();
   }
 
   void selectBranch(String? value) {
     selectedBranch = value!;
+    selectedBranchData =
+        branches.firstWhere((element) => element.name == value);
     notifyListeners();
   }
 
@@ -135,5 +148,325 @@ class RegisterProvider extends ChangeNotifier {
     );
     allPatients.add(patientModel);
     print(patientModel);
+  }
+
+  Future generatePdf() async {
+    final pdf = pw.Document();
+    final List<String> headerNames = [
+      'Treatment',
+      'Price',
+      'Male',
+      'Female',
+      'Total',
+    ];
+
+    final coverLogo = pw.MemoryImage(
+      (await rootBundle.load('assets/images/big.png')).buffer.asUint8List(),
+    );
+
+    final logo = pw.MemoryImage(
+        (await rootBundle.load('assets/images/logo.png')).buffer.asUint8List());
+    final sign = pw.MemoryImage(
+        (await rootBundle.load('assets/images/sign.png')).buffer.asUint8List());
+    PdfColor pdfMainGreen = PdfColor.fromInt(packageTextColor.value);
+
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return pw.Stack(children: [
+            pw.Container(
+              decoration: pw.BoxDecoration(
+                image: pw.DecorationImage(
+                  image: coverLogo,
+                  fit: pw.BoxFit.contain,
+                ),
+              ),
+            ),
+            pw.Container(
+              child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.end,
+                children: [
+                  pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                      children: [
+                        pw.Image(logo, width: 76, height: 80),
+                        pw.Column(
+                          crossAxisAlignment: pw.CrossAxisAlignment.end,
+                          children: [
+                            pw.Text(selectedBranchData!.name,
+                                textAlign: pw.TextAlign.end,
+                                style: pw.TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: pw.FontWeight.bold)),
+                            pw.Text(selectedBranchData!.address),
+                            pw.Text("e-mail: ${selectedBranchData!.mail}"),
+                            pw.Text("Mob: ${selectedBranchData!.phone}"),
+                            pw.Text("GST No: ${selectedBranchData!.gst}",
+                                style: pw.TextStyle(
+                                    fontWeight: pw.FontWeight.bold)),
+                          ],
+                        ),
+                      ]),
+                  pw.SizedBox(height: 20),
+                  pw.Divider(
+                      color: PdfColors.grey.shade(0.2),
+                      height: 2,
+                      thickness: 1),
+                  pw.SizedBox(height: 18),
+                  pw.Align(
+                    alignment: pw.Alignment.topLeft,
+                    child: pw.Text("Patient Details",
+                        style: pw.TextStyle(
+                            color: pdfMainGreen,
+                            fontSize: 13,
+                            fontWeight: pw.FontWeight.bold)),
+                  ),
+                  pw.SizedBox(height: 18),
+                  pw.Row(
+                    children: [
+                      pw.Flexible(
+                        fit: pw.FlexFit.tight,
+                        child: pw.Container(
+                            child: pw.Column(
+                          crossAxisAlignment: pw.CrossAxisAlignment.start,
+                          children: [
+                            pw.Text("Name",
+                                textAlign: pw.TextAlign.start,
+                                style: pw.TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: pw.FontWeight.bold)),
+                            pw.Text("Address",
+                                textAlign: pw.TextAlign.start,
+                                style: pw.TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: pw.FontWeight.bold)),
+                            pw.Text("WhatsApp Number",
+                                textAlign: pw.TextAlign.start,
+                                style: pw.TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: pw.FontWeight.bold)),
+                          ],
+                        )),
+                      ),
+                      pw.Container(
+                        width: 200,
+                        child: pw.Column(
+                          crossAxisAlignment: pw.CrossAxisAlignment.start,
+                          children: [
+                            pw.Text("Salih T",
+                                textAlign: pw.TextAlign.start,
+                                style: const pw.TextStyle(fontSize: 10)),
+                            pw.Text("Nadakkave, Kozhikkode",
+                                textAlign: pw.TextAlign.start,
+                                style: const pw.TextStyle(fontSize: 10)),
+                            pw.Text("+91 987654321",
+                                textAlign: pw.TextAlign.start,
+                                style: const pw.TextStyle(fontSize: 10)),
+                          ],
+                        ),
+                      ),
+                      pw.Flexible(
+                          fit: pw.FlexFit.tight,
+                          child: pw.Container(
+                            child: pw.Column(
+                              crossAxisAlignment: pw.CrossAxisAlignment.start,
+                              children: [
+                                pw.Text("Booked On",
+                                    textAlign: pw.TextAlign.start,
+                                    style: pw.TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: pw.FontWeight.bold)),
+                                pw.Text("Treatment Date",
+                                    textAlign: pw.TextAlign.start,
+                                    style: pw.TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: pw.FontWeight.bold)),
+                                pw.Text("Treatment Time ",
+                                    textAlign: pw.TextAlign.start,
+                                    style: pw.TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: pw.FontWeight.bold)),
+                              ],
+                            ),
+                          )),
+                      pw.Flexible(
+                        fit: pw.FlexFit.tight,
+                        child: pw.Container(
+                            width: 200,
+                            child: pw.Column(
+                                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                                children: [
+                                  pw.Text("31/01/2024",
+                                      textAlign: pw.TextAlign.start,
+                                      style: const pw.TextStyle(fontSize: 10)),
+                                  pw.Text("21/02/2024",
+                                      textAlign: pw.TextAlign.start,
+                                      style: const pw.TextStyle(fontSize: 10)),
+                                  pw.Text("11:00 am",
+                                      textAlign: pw.TextAlign.start,
+                                      style: const pw.TextStyle(fontSize: 10)),
+                                ])),
+                      )
+                    ],
+                  ),
+                  pw.SizedBox(height: 10),
+                  pw.Container(
+                    height: 1,
+                    child: pw.Row(
+                      children: List.generate(
+                        30,
+                        (index) => pw.Container(
+                          width: 14,
+                          height: .2,
+                          margin: const pw.EdgeInsets.symmetric(horizontal: 1),
+                          color: PdfColors.grey,
+                        ),
+                      ),
+                    ),
+                  ),
+                  pw.SizedBox(height: 15),
+                  pw.Table(children: [
+                    buildHeaderRow(headerNames),
+                    for (var patients in allPatients)
+                      pw.TableRow(children: [
+                        pw.Text(patients.patientDetailList.first.treatmentName),
+                        pw.Container(width: 50, child: pw.Text("0")),
+                        pw.Text(
+                            patients.patientDetailList.first.male.toString()),
+                        pw.Text(
+                            patients.patientDetailList.first.female.toString()),
+                        pw.Text(patients.price),
+                      ]),
+                  ]),
+                  pw.SizedBox(height: 155),
+                  pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.end,
+                      children: [
+                        pw.Text("Total Amount",
+                            textAlign: pw.TextAlign.start,
+                            style: pw.TextStyle(
+                                fontSize: 10, fontWeight: pw.FontWeight.bold)),
+                        pw.Text(allPatients.first.totalAmount.toString(),
+                            textAlign: pw.TextAlign.start,
+                            style: pw.TextStyle(
+                                fontSize: 10, fontWeight: pw.FontWeight.bold)),
+                      ]),
+                  pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.end,
+                      children: [
+                        pw.Text("Discount",
+                            textAlign: pw.TextAlign.start,
+                            style: const pw.TextStyle(fontSize: 10)),
+                        pw.Text(allPatients.first.discountAmount.toString(),
+                            textAlign: pw.TextAlign.start,
+                            style: const pw.TextStyle(fontSize: 10)),
+                      ]),
+                  pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.end,
+                      children: [
+                        pw.Text("Advance  ",
+                            textAlign: pw.TextAlign.start,
+                            style: const pw.TextStyle(fontSize: 10)),
+                        pw.Text(allPatients.first.advanceAmount.toString(),
+                            textAlign: pw.TextAlign.start,
+                            style: const pw.TextStyle(fontSize: 10)),
+                      ]),
+                  pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.end,
+                      children: [
+                        pw.Container(
+                            height: 1,
+                            child: pw.Row(
+                              children: List.generate(
+                                  5,
+                                  (index) => pw.Container(
+                                        width: 14,
+                                        height: .2,
+                                        margin: const pw.EdgeInsets.symmetric(
+                                            horizontal: 1),
+                                        color: PdfColors.grey,
+                                      )),
+                            )),
+                      ]),
+                  pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.end,
+                      children: [
+                        pw.Text("Balance",
+                            textAlign: pw.TextAlign.start,
+                            style: pw.TextStyle(
+                                fontSize: 10, fontWeight: pw.FontWeight.bold)),
+                        pw.Text(allPatients.first.balanceAmount.toString(),
+                            textAlign: pw.TextAlign.start,
+                            style: pw.TextStyle(
+                                fontSize: 10, fontWeight: pw.FontWeight.bold)),
+                      ]),
+                  pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.end,
+                      children: [
+                        pw.Text("Thank you for choosing us",
+                            textAlign: pw.TextAlign.start,
+                            style: pw.TextStyle(
+                                fontSize: 16,
+                                fontWeight: pw.FontWeight.bold,
+                                color: pdfMainGreen)),
+                      ]),
+                  pw.Text(
+                      "Your well-being is our commitment, and we're honored \n you've entrusted us with your health journey",
+                      textAlign: pw.TextAlign.end,
+                      style: pw.TextStyle(
+                        fontSize: 10,
+                        fontWeight: pw.FontWeight.normal,
+                        color: PdfColors.grey,
+                      )),
+                  pw.Image(sign, width: 76, height: 80),
+                  pw.Spacer(),
+                  pw.Container(
+                    height: 1,
+                    child: pw.Row(
+                      children: List.generate(
+                        30,
+                        (index) => pw.Container(
+                          width: 14,
+                          height: .2,
+                          margin: const pw.EdgeInsets.symmetric(horizontal: 1),
+                          color: PdfColors.grey,
+                        ),
+                      ),
+                    ),
+                  ),
+                  pw.Text(
+                      "“Booking amount is non-refundable, and it's important to arrive on the allotted time for your treatment”",
+                      textAlign: pw.TextAlign.end,
+                      style: pw.TextStyle(
+                        fontSize: 10,
+                        fontWeight: pw.FontWeight.normal,
+                        color: PdfColors.grey,
+                      )),
+                ],
+              ),
+            ),
+          ]);
+        },
+      ),
+    );
+    Directory documentDirectory = await getApplicationDocumentsDirectory();
+    String documentPath = documentDirectory.path;
+    File file = File("$documentPath/Invoice2.pdf");
+    return await Printing.layoutPdf(
+        onLayout: (PdfPageFormat format) async => pdf.save());
+  }
+
+  pw.TableRow buildHeaderRow(List<String> headerNames) {
+    return pw.TableRow(
+      children: headerNames.map(
+        (header) {
+          return pw.Text(
+            header,
+            style: const pw.TextStyle(),
+          );
+        },
+      ).toList(),
+    );
   }
 }

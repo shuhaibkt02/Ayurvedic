@@ -2,7 +2,7 @@ import 'package:ayurvedic/data/repo/auth/auth_repo.dart';
 import 'package:ayurvedic/data/repo/patient/patient_repo.dart';
 import 'package:ayurvedic/logic/auth/auth_bloc.dart';
 import 'package:ayurvedic/logic/patient/patient_bloc.dart';
-import 'package:ayurvedic/presentation/screen/details_screen.dart';
+import 'package:ayurvedic/presentation/screen/register_screen.dart';
 import 'package:ayurvedic/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           textTheme: textTheme,
         ),
-        home: const PdfView(),
+        home: const RegisterScreen(),
       ),
     );
   }
